@@ -22,4 +22,4 @@ RUN npm install --production
 COPY --from=build /app/build build
 
 EXPOSE 3000
-ENTRYPOINT ["node", "/app/build/index.js"]
+CMD ["node", "/app/build/index.js"]
