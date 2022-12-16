@@ -1,3 +1,4 @@
+### build container
 FROM node:current-alpine3.16 as build
 
 RUN addgroup -S app && adduser -S app -G app
@@ -6,20 +7,23 @@ WORKDIR /app
 ADD . .
 RUN chown -R app:app /app
 USER app
-RUN ls -hl .
-RUN npm install
+RUN npm ci
 RUN npm run build
 
-
+### production container
 FROM node:current-alpine3.16
+
+ENV NODE_ENV production
 
 RUN addgroup -S app && adduser -S app -G app
 RUN mkdir /app && chown app:app /app
 USER app
 WORKDIR /app
 COPY --from=build /app/package*.json .
-RUN npm install --production
+# shut be ci but breaks because of inconsistent package-lock.json
+RUN npm ci
 COPY --from=build /app/build build
+ADD entry.js /app
 
 EXPOSE 3000
-CMD ["node", "/app/build/index.js"]
+ENTRYPOINT ["node", "/app/entry.js"]

@@ -1,4 +1,4 @@
-# Containerized sveltekit using node-adapter using $env/dynamic/private
+# Containerized sveltekit
 
 `podman` and `docker` can be used interchangeably
 
@@ -8,8 +8,8 @@
 `podman build -t sv-kit -f Containerfile .`
 
 ## Running
-`podman run --rm -it -p 3000:3000 -e SOME_SECRET=hello-world --name sv-kit sv-kit:latest`
+`podman run --rm -it -p 3000:3000 --name sv-kit sv-kit:latest`
 
-## Stopping (for some reason it is not picking but CTRL +C / SIGINT ?)
+## Stopping
 
-`podman stop -t 0 sv-kit`
+`podman stop sv-kit`
